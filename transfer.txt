@@ -1,0 +1,78 @@
+# 🔄 Transfer Notes — Project #31: Sponsored Reserve Onboarding Kit
+## StellarX Workshop @ PUP QC · May 2026
+
+---
+
+## What We Did in the Original Session
+
+### Phase 1: Setup ✅ (completed)
+- [x] Checked Node.js v26.3.0 + npm 11.16.0
+- [x] Cloned the StellarX workshop template
+- [x] Ran `npm install` (390 packages)
+- [x] Dev server running at `http://localhost:3000`
+- [x] Connected Freighter wallet (Test Net)
+- [x] Funded account via Friendbot
+- [x] Sent a test payment end-to-end
+
+### Phase 2: Project Selection ✅
+- [x] Reviewed the 300 Ideas list: https://github.com/shashis132/stellarX-workshop/blob/main/stellar-300-ideas.md
+- [x] Selected **Idea #31 — Sponsored Reserve Onboarding Kit**
+- [x] Copied the template to a new folder for this project
+
+---
+
+## 🎯 Project #31 — What It Is
+
+**Problem:** New Stellar users need XLM just to exist on the network (base reserve ~1 XLM), which blocks zero-balance onboarding.
+
+**Solution:** A drop-in kit that lets a business sponsor the base reserve for new customer accounts — users start with zero XLM.
+
+**Why Stellar:** Sponsored reserves are a **native Stellar feature** (distinct from fee sponsorship), rarely productized. No Soroban contract needed.
+
+---
+
+## 📦 What's in This Folder
+
+```
+├── web/                      # Next.js 16 + TypeScript + Tailwind frontend
+├── contracts/savings-goal/   # Rust Soroban contract (may or may not use)
+├── scripts/                  # deploy scripts
+├── IDEA.md                   # Fill this in with your concept
+├── CLAUDE.md                 # Stellar gotchas & reference
+├── LICENSE                   # MIT
+├── progress.txt              # Progress tracker (same as original)
+└── transfer.txt              # ← You are here
+```
+
+---
+
+## 🔧 Quick Start
+
+```powershell
+cd web
+npm install
+npm run dev
+# Open http://localhost:3000
+```
+
+## 📚 Key Resources
+
+| Resource | Link |
+|---|---|
+| Workshop Checklist | https://stellar-pup-qc-may-2026-checklist.vercel.app/ |
+| Submission Guidelines | https://github.com/shashis132/stellarX-workshop/blob/main/SUBMISSION_GUIDELINES.md |
+| 300 Ideas List | https://github.com/shashis132/stellarX-workshop/blob/main/stellar-300-ideas.md |
+| Stellar Expert (testnet) | https://stellar.expert/explorer/testnet |
+| Freighter Extension | https://www.freighter.app/ |
+| Soroban RPC | https://soroban-testnet.stellar.org |
+
+## 📝 Notes from Original Session
+- Network: **testnet** only
+- Stellar SDK: `@stellar/stellar-sdk` v15 (use `rpc` namespace, NOT `SorobanRpc`)
+- Freighter API v6: `signTransaction` returns `{ signedTxXdr, signerAddress }`
+- USDC Issuer (testnet): `GBBD47IF6LWK7P7MDEVSCWR7DPUWV3NY3DTQEVFL4NAT4AQH3ZLLFLA5`
+
+## ▶️ Next Steps (when you start)
+1. `cd web && npm install && npm run dev`
+2. Open the codebase and start building!
+3. Good luck! 🚀

@@ -1,73 +1,87 @@
 'use client';
 import { useState, useCallback } from 'react';
 import { useWallet } from '@/hooks/useWallet';
-import ConnectWallet from '@/components/ConnectWallet';
-import FundAccount from '@/components/FundAccount';
-import AddTrustline from '@/components/AddTrustline';
-import BalanceCard from '@/components/BalanceCard';
-import SendPayment from '@/components/SendPayment';
-import SavingsGoal from '@/components/SavingsGoal';
+import SponsorDashboard from '@/components/SponsorDashboard';
+import NewAccountGenerator from '@/components/NewAccountGenerator';
 
 export default function Home() {
+  const [activeTab, setActiveTab] = useState<'user' | 'sponsor'>('user');
+  // Keep state here so it persists across tab switches
   const wallet = useWallet();
-  const { publicKey, connecting } = wallet;
-  const [refreshKey, setRefreshKey] = useState(0);
-  const refresh = useCallback(() => setRefreshKey((k) => k + 1), []);
+  const [keypair, setKeypair] = useState<{
+    secretKey: string;
+    publicKey: string;
+  } | null>(null);
+  const [createdAccounts, setCreatedAccounts] = useState<Set<string>>(new Set());
+
+  const onAccountCreated = useCallback((pubkey: string) => {
+    setCreatedAccounts((prev) => {
+      const next = new Set(prev);
+      next.add(pubkey);
+      return next;
+    });
+  }, []);
+
+  const accountCreated = keypair ? createdAccounts.has(keypair.publicKey) : false;
 
   return (
-    <main className="min-h-screen w-full bg-gray-50">
+    <main className="min-h-screen w-full bg-gradient-to-br from-slate-50 via-white to-indigo-50">
       <div className="mx-auto max-w-lg px-4 py-12">
-        <header className="mb-8 flex items-start justify-between gap-4">
-          <div>
-            <h1 className="text-2xl font-bold text-gray-900">StellarX Starter</h1>
-            <p className="text-sm text-gray-500">
-              Wallet · payments · Soroban — testnet
-            </p>
+        {/* Brand header */}
+        <header className="mb-8 text-center">
+          <div className="mb-2 inline-block rounded-full bg-indigo-100 px-3 py-1 text-xs font-medium text-indigo-700">
+            Sponsored Reserve Onboarding Kit
           </div>
-          <ConnectWallet {...wallet} />
+          <h1 className="text-3xl font-bold tracking-tight text-gray-900">
+            Zero<span className="text-indigo-600">XLM</span>
+          </h1>
+          <p className="mt-1 text-sm text-gray-500">
+            Join Stellar with zero XLM — your reserve is sponsored
+          </p>
         </header>
 
-        {!publicKey && !connecting && (
-          <div className="rounded border border-gray-200 bg-white py-16 text-center text-gray-500">
-            <p className="mb-2">Connect your Freighter wallet to get started.</p>
-            <p className="text-sm">
-              No wallet?{' '}
-              <a
-                href="https://freighter.app"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-indigo-600 hover:underline"
-              >
-                Install Freighter
-              </a>{' '}
-              and switch it to Test Net.
-            </p>
-          </div>
+        {/* Mode switcher */}
+        <div className="mb-6 flex rounded-xl border border-gray-200 bg-white p-1 shadow-sm">
+          <button
+            onClick={() => setActiveTab('user')}
+            className={`flex-1 rounded-lg px-4 py-2.5 text-sm font-medium transition-all ${
+              activeTab === 'user'
+                ? 'bg-indigo-600 text-white shadow-sm'
+                : 'text-gray-600 hover:text-gray-900'
+            }`}
+          >
+            👤 New User
+          </button>
+          <button
+            onClick={() => setActiveTab('sponsor')}
+            className={`flex-1 rounded-lg px-4 py-2.5 text-sm font-medium transition-all ${
+              activeTab === 'sponsor'
+                ? 'bg-indigo-600 text-white shadow-sm'
+                : 'text-gray-600 hover:text-gray-900'
+            }`}
+          >
+            🏢 Sponsor
+          </button>
+        </div>
+
+        {/* Content */}
+        {activeTab === 'user' ? (
+          <NewAccountGenerator
+            keypair={keypair}
+            onKeypairChange={setKeypair}
+            accountCreated={accountCreated}
+          />
+        ) : (
+          <SponsorDashboard
+            wallet={wallet}
+            keypair={keypair}
+            onAccountCreated={onAccountCreated}
+          />
         )}
 
-        {publicKey && (
-          <>
-            <div className="mb-2 flex flex-wrap items-center gap-3">
-              <FundAccount publicKey={publicKey} onFunded={refresh} />
-              <AddTrustline publicKey={publicKey} onDone={refresh} />
-            </div>
-            <BalanceCard publicKey={publicKey} refreshKey={refreshKey} />
-            <button
-              onClick={refresh}
-              className="mt-3 text-sm text-gray-500 underline hover:text-gray-700"
-            >
-              Refresh balances
-            </button>
-            <SendPayment publicKey={publicKey} onSent={refresh} />
-          </>
-        )}
-
-        {/* The Soroban panel renders even before connecting (reads are wallet-free). */}
-        <SavingsGoal publicKey={publicKey} />
-
+        {/* Footer */}
         <footer className="mt-10 text-center text-xs text-gray-400">
-          Built for the StellarX PH workshop @ PUP QC · pick an idea, then bend
-          this scaffold toward it.
+          Built on Stellar testnet · StellarX PH workshop @ PUP QC
         </footer>
       </div>
     </main>

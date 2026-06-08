@@ -1,0 +1,52 @@
+# ZeroXLM — Progress Tracker
+## Sponsored Reserve Onboarding Kit · PUP QC · May 2026
+
+---
+
+## ✅ Completed
+
+### Frontend (`web/`)
+- [x] `npm install`
+- [x] Dev server running at `http://localhost:3000`
+
+### Core Feature: Sponsored Reserve Onboarding
+- [x] Sponsor Dashboard — connect Freighter, create sponsored accounts
+- [x] Self-service mode — generate Stellar keypair, copy pubkey to share with sponsor
+- [x] Sponsorship sandwich: `BeginSponsoringFutureReserves` → `CreateAccount` → `EndSponsoringFutureReserves`
+- [x] View sponsored accounts list from Horizon
+- [x] Fund sponsor with Friendbot
+- [ ] Trustline sponsorship (sponsor pays USDC trustline reserve for new users)
+
+### Project Setup
+- [x] Pick idea #31 — Sponsored Reserve Onboarding Kit
+- [x] Fill in `IDEA.md`
+- [x] Customize components for Project #31
+- [x] Update branding to "ZeroXLM"
+
+---
+
+## 🔧 Quick Start Commands
+
+```powershell
+# Start the frontend
+cd web
+npm run dev
+```
+
+---
+
+## 📋 Key Resources
+
+| Resource | Link |
+|---|---|
+| Workshop Checklist | https://stellar-pup-qc-may-2026-checklist.vercel.app/ |
+| Local Frontend | http://localhost:3000 |
+| Stellar Expert (testnet) | https://stellar.expert/explorer/testnet |
+| Stellar Lab (create accounts) | https://laboratory.stellar.org/#account-creator?network=test |
+| Freighter Extension | https://www.freighter.app/ |
+
+## 📝 Notes
+
+- Network: **testnet** only
+- USDC Issuer (testnet): `GBBD47IF6LWK7P7MDEVSCWR7DPUWV3NY3DTQEVFL4NAT4AQH3ZLLFLA5`
+- Soroban RPC: `https://soroban-testnet.stellar.org`
